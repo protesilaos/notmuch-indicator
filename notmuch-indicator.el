@@ -36,7 +36,7 @@
   :group 'notmuch)
 
 (defcustom notmuch-indicator-args
-  '((:terms "tag:unread and tag:inbox" :specifier "@"))
+  '((:terms "tag:unread and tag:inbox" :label "@"))
   "List of plists specifying terms for notmuch count.
 
 Each plist consists of two properties, both of which accept a
@@ -45,7 +45,7 @@ string value:
 1. The `:terms' holds the command-line arguments passed to
    notmuch count.
 
-2. The `:specifier' is an arbitrary string that is prepended to
+2. The `:label' is an arbitrary string that is prepended to
    the return value of the above.
 
 Multiple plists represent separate notmuch count queries.  These
@@ -55,8 +55,8 @@ single string.
 For instance, a value like the following defines two commands:
 
     (setq notmuch-indicator-args
-          \='((:terms \"tag:unread and tag:inbox\" :specifier \"@\")
-            (:terms \"--output threads from:VIP\" :specifier \"🤡\")))
+          \='((:terms \"tag:unread and tag:inbox\" :label \"@\")
+            (:terms \"--output threads from:VIP\" :label \"🤡\")))
 
 These form a string like: @50 🤡10."
   :type 'list ; TODO 2022-09-19: Use correct type
@@ -75,7 +75,7 @@ These form a string like: @50 🤡10."
   "Parse `notmuch-indicator-args' and format them as single string."
   (mapconcat
    (lambda (props)
-     (format "%s%s" (or (plist-get props :specifier)  "")
+     (format "%s%s" (or (plist-get props :label)  "")
              (replace-regexp-in-string
               "\n" " "
               (shell-command-to-string
