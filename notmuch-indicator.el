@@ -37,7 +37,7 @@
 
 (defcustom notmuch-indicator-args
   '((:terms "tag:unread and tag:inbox" :specifier "@"))
-  "List with plists specifying terms for notmuch count.
+  "List of plists specifying terms for notmuch count.
 
 Each plist consists of two properties, both of which accept a
 string value:
