@@ -37,8 +37,7 @@
 
 ;; TODO 2022-09-19: How do we actually use 'notmuch count --batch'?
 (defcustom notmuch-indicator-args
-  '(("tag:unread and tag:inbox" "@")
-    ("--output threads from:VIP" "🤡"))
+  '(("tag:unread and tag:inbox" "@"))
   "Arguments to format the notmuch mail indicator.
 
 Each list consists of two strings:
@@ -50,8 +49,13 @@ Multiple lists represent separate notmuch count queries.  These
 are run sequentially.  Their return values are joined into a
 single string.
 
-The default value thus specifies two commands, which form a
-string like: @50 🤡10."
+For instance, a value like the following specifies two commands:
+
+    (setq notmuch-indicator-args
+          \='((\"tag:unread and tag:inbox\" \"@\")
+            (\"--output threads from:VIP\" \"🤡\")))
+
+These form a string like: @50 🤡10."
   :type '(repeat (list string))
   :group 'notmuch-indicator)
 
