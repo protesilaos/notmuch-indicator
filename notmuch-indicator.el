@@ -36,26 +36,30 @@
   :group 'notmuch)
 
 (defcustom notmuch-indicator-args
-  '(("tag:unread and tag:inbox" "@"))
-  "Arguments to format the notmuch mail indicator.
+  '((:terms "tag:unread and tag:inbox" :specifier "@"))
+  "List with plists specifying terms for notmuch count.
 
-Each list consists of two strings:
+Each plist consists of two properties, both of which accept a
+string value:
 
-1. The command-line arguments passed to notmuch count.
-2. A string that is prepended to the return value of the above.
+1. The `:terms' holds the command-line arguments passed to
+   notmuch count.
 
-Multiple lists represent separate notmuch count queries.  These
+2. The `:specifier' is an arbitrary string that is prepended to
+   the return value of the above.
+
+Multiple plists represent separate notmuch count queries.  These
 are run sequentially.  Their return values are joined into a
 single string.
 
-For instance, a value like the following specifies two commands:
+For instance, a value like the following defines two commands:
 
     (setq notmuch-indicator-args
-          \='((\"tag:unread and tag:inbox\" \"@\")
-            (\"--output threads from:VIP\" \"🤡\")))
+          \='((:terms \"tag:unread and tag:inbox\" :specifier \"@\")
+            (:terms \"--output threads from:VIP\" :specifier \"🤡\")))
 
 These form a string like: @50 🤡10."
-  :type '(repeat (list string))
+  :type 'list ; TODO 2022-09-19: Use correct type
   :group 'notmuch-indicator)
 
 ;; TODO 2022-09-19: If this changes, the `notmuch-indicator-mode' needs
@@ -70,14 +74,14 @@ These form a string like: @50 🤡10."
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
   (mapconcat
-   (lambda (s)
-     (format "%s%s" (or (cadr s) "")
+   (lambda (props)
+     (format "%s%s" (or (plist-get props :specifier)  "")
              (replace-regexp-in-string
               "\n" " "
               (shell-command-to-string
-               (format "notmuch count %s" (car s))))))
-     notmuch-indicator-args
-     " "))
+               (format "notmuch count %s" (plist-get props :terms))))))
+   notmuch-indicator-args
+   " "))
 
 (defvar notmuch-indicator--last-state nil
   "Internal variable used to store the indicator's state.")
