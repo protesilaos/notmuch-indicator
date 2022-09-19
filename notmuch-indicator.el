@@ -35,7 +35,6 @@
   "WORK-IN-PROGRESS."
   :group 'notmuch)
 
-;; TODO 2022-09-19: How do we actually use 'notmuch count --batch'?
 (defcustom notmuch-indicator-args
   '(("tag:unread and tag:inbox" "@"))
   "Arguments to format the notmuch mail indicator.
