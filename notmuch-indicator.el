@@ -102,14 +102,12 @@ These form a string like: @50 🤡10."
                   (eq (timer--function timer) 'notmuch-indicator--indicator))
                 timer-list)))
 
-;; TODO 2022-09-19: If length of `notmuch-indicator--running-p' is > 1
-;; we need to reduce it to 1.
 (defun notmuch-indicator--run ()
   "Run the timer with a delay, starting it if necessary.
 The delay is specified by `notmuch-indicator-refresh-count'."
   (unless (notmuch-indicator--running-p)
-    (notmuch-indicator--indicator))
-  (run-at-time t notmuch-indicator-refresh-count #'notmuch-indicator--indicator))
+    (notmuch-indicator--indicator)
+    (run-at-time t notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
 
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
