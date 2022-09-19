@@ -64,7 +64,8 @@ These form a string like: @50 🤡10."
 ;; with `setq'.
 (defcustom notmuch-indicator-refresh-count (* 60 3)
   "How often to update the indicator, in seconds."
-  :type 'number)
+  :type 'number
+  :group 'notmuch-indicator)
 
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
