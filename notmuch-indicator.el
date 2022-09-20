@@ -138,12 +138,24 @@ option `notmuch-indicator-refresh-count'."
 
 ;;;; Helper functions and the minor-mode
 
+(defun notmuch-indicator--shell-command (terms)
+  "Run shell command for `notmuch-count(1)' with TERMS."
+  (replace-regexp-in-string
+   "\n" " "
+   (shell-command-to-string
+    (format "notmuch count %s" terms))))
+
+(defun notmuch-indicator--format-label (label count)
+  "Format LABEL and COUNT of `notmuch-indicator-args'."
+  (format "%s%s " (or label  "") count))
+
 (defun notmuch-indicator--format-output (properties)
   "Format PROPERTIES of `notmuch-indicator-args'."
-  (let ((count (shell-command-to-string (format "notmuch count %s" (plist-get properties :terms)))))
-    (if (and (zerop (string-to-number count)) notmuch-indicator-hide-empty-counters)
+  (let ((count (notmuch-indicator--shell-command (plist-get properties :terms))))
+    (if (and (zerop (string-to-number count))
+             notmuch-indicator-hide-empty-counters)
         ""
-      (format "%s%s " (or (plist-get properties :label)  "") (replace-regexp-in-string "\n" " " count)))))
+      (notmuch-indicator--format-label (plist-get properties :label) count))))
 
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
