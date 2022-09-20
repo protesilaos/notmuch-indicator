@@ -83,8 +83,7 @@
 
 ;;;; User options
 
-(defcustom notmuch-indicator-args
-  '((:terms "tag:unread and tag:inbox" :label "@"))
+(defcustom notmuch-indicator-args '((:terms "tag:unread and tag:inbox" :label "@"))
   "List of plists specifying terms for `notmuch-count(1)'.
 
 Each plist consists of two properties, both of which accept a
@@ -128,8 +127,7 @@ Also see `notmuch-indicator-force-refresh-commands'."
   :type 'number
   :group 'notmuch-indicator)
 
-(defcustom notmuch-indicator-force-refresh-commands
-  '(notmuch-refresh-this-buffer)
+(defcustom notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer)
   "List of commands that update the notmuch-indicator after invoked.
 Normally, the indicator runs on a timer, controlled by the user
 option `notmuch-indicator-refresh-count'."
