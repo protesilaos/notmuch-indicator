@@ -1,4 +1,4 @@
-;;; notmuch-indicator.el --- Add notmuch count to the global-mode-string (mode line) -*- lexical-binding: t -*-
+;;; notmuch-indicator.el --- Display mode line indicator with notmuch-count(1) output -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
@@ -78,7 +78,7 @@
 ;;; Code:
 
 (defgroup notmuch-indicator ()
-  "WORK-IN-PROGRESS."
+  "Display mode line indicator with `notmuch-count(1)' output."
   :group 'notmuch)
 
 ;;;; User options
@@ -191,7 +191,8 @@ The delay is specified by `notmuch-indicator-refresh-count'."
 
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
-  "Display counter with output from `notmuch-count(1)'.
+  "Display mode line indicator with `notmuch-count(1)' output.
+
 For the search terms and the label that can accompany them, refer
 to the user option `notmuch-indicator-args'.
 
