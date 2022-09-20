@@ -143,22 +143,21 @@ option `notmuch-indicator-refresh-count'."
   (let ((count (shell-command-to-string (format "notmuch count %s" (plist-get properties :terms)))))
     (if (and (zerop (string-to-number count)) notmuch-indicator-hide-empty-counters)
         ""
-      (format "%s%s" (or (plist-get properties :label)  "") (replace-regexp-in-string "\n" " " count)))))
+      (format "%s%s " (or (plist-get properties :label)  "") (replace-regexp-in-string "\n" " " count)))))
 
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
   (mapconcat
    (lambda (props)
      (notmuch-indicator--format-output props))
-   notmuch-indicator-args
-   " "))
+   notmuch-indicator-args))
 
 (defvar notmuch-indicator--last-state nil
   "Internal variable used to store the indicator's state.")
 
 (defun notmuch-indicator--indicator ()
   "Prepare new mail count mode line indicator."
-  (let* ((count (concat (notmuch-indicator--return-count) " "))
+  (let* ((count (notmuch-indicator--return-count))
          (old-indicator notmuch-indicator--last-state))
     (when old-indicator
       (setq global-mode-string (delete old-indicator global-mode-string)))
