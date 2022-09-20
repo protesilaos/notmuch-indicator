@@ -70,8 +70,18 @@ These form a string like: @50 🤡10."
 ;; with `setq'.
 (defcustom notmuch-indicator-refresh-count (* 60 3)
   "How often to update the indicator, in seconds.
-It probably is better to not set this to a very low number."
+It probably is better to not set this to a very low number.
+
+Also see `notmuch-indicator-force-refresh-commands'."
   :type 'number
+  :group 'notmuch-indicator)
+
+(defcustom notmuch-indicator-force-refresh-commands
+  '(notmuch-refresh-this-buffer)
+  "List of commands that update the notmuch-indicator after invoked.
+Normally, the indicator runs on a timer, controlled by the user
+option `notmuch-indicator-refresh-count'."
+  :type '(repeat symbol)
   :group 'notmuch-indicator)
 
 ;;;; Helper functions and the minor-mode
@@ -119,6 +129,12 @@ The delay is specified by `notmuch-indicator-refresh-count'."
     (notmuch-indicator--indicator)
     (run-at-time t notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
 
+(defun notmuch-indicator--refresh ()
+  "Refresh the active indicator."
+  (when (notmuch-indicator--running-p)
+    (cancel-function-timers #'notmuch-indicator--indicator)
+    (notmuch-indicator--run)))
+
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
   "Display counter with output from notmuch count.
@@ -130,9 +146,14 @@ option `notmuch-indicator-refresh-count'.."
   :init-value nil
   :global t
   (if notmuch-indicator-mode
-      (notmuch-indicator--run)
+      (progn
+        (notmuch-indicator--run)
+        (dolist (fn notmuch-indicator-force-refresh-commands)
+          (advice-add fn :after #'notmuch-indicator--refresh)))
     (cancel-function-timers #'notmuch-indicator--indicator)
     (setq global-mode-string (delete notmuch-indicator--last-state global-mode-string))
+    (dolist (fn notmuch-indicator-force-refresh-commands)
+      (advice-remove fn #'notmuch-indicator--refresh))
     (force-mode-line-update t)))
 
 (provide 'notmuch-indicator)
