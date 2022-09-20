@@ -39,20 +39,21 @@
 
 (defcustom notmuch-indicator-args
   '((:terms "tag:unread and tag:inbox" :label "@"))
-  "List of plists specifying terms for notmuch count.
+  "List of plists specifying terms for `notmuch-count(1)'.
 
 Each plist consists of two properties, both of which accept a
 string value:
 
 1. The `:terms' holds the command-line arguments passed to
-   notmuch count.
+   `notmuch-count(1)' (read the Notmuch documentation for the
+   technicalities).
 
 2. The `:label' is an arbitrary string that is prepended to
    the return value of the above.
 
-Multiple plists represent separate notmuch count queries.  These
-are run sequentially.  Their return values are joined into a
-single string.
+Multiple plists represent separate `notmuch-count(1)' queries.
+These are run sequentially.  Their return values are joined into
+a single string.
 
 For instance, a value like the following defines two commands:
 
@@ -137,7 +138,7 @@ The delay is specified by `notmuch-indicator-refresh-count'."
 
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
-  "Display counter with output from notmuch count.
+  "Display counter with output from `notmuch-count(1)'.
 For the search terms and the label that can accompany them, refer
 to the user option `notmuch-indicator-args'.
 
