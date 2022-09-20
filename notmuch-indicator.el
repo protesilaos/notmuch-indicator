@@ -67,7 +67,8 @@ These form a string like: @50 🤡10."
 ;; also some elegant way to handle this when the variable is changed
 ;; with `setq'.
 (defcustom notmuch-indicator-refresh-count (* 60 3)
-  "How often to update the indicator, in seconds."
+  "How often to update the indicator, in seconds.
+It probably is better to not set this to a very low number."
   :type 'number
   :group 'notmuch-indicator)
 
