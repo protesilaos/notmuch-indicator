@@ -117,10 +117,12 @@ The delay is specified by `notmuch-indicator-refresh-count'."
 
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
-  "Enable with counter for new mail.
+  "Display counter with output from notmuch count.
+For the search terms and the label that can accompany them, refer
+to the user option `notmuch-indicator-args'.
 
-If the `global-mode-string' is displayed on the `tab-bar-mode',
-there may be a slight delay until the information is updated."
+To control how often the indicator is updated, check the user
+option `notmuch-indicator-refresh-count'.."
   :init-value nil
   :global t
   (if notmuch-indicator-mode
