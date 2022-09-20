@@ -35,6 +35,8 @@
   "WORK-IN-PROGRESS."
   :group 'notmuch)
 
+;;;; User options
+
 (defcustom notmuch-indicator-args
   '((:terms "tag:unread and tag:inbox" :label "@"))
   "List of plists specifying terms for notmuch count.
@@ -71,6 +73,8 @@ These form a string like: @50 🤡10."
 It probably is better to not set this to a very low number."
   :type 'number
   :group 'notmuch-indicator)
+
+;;;; Helper functions and the minor-mode
 
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
