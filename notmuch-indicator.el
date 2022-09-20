@@ -71,6 +71,9 @@
 ;; The user option `notmuch-indicator-force-refresh-commands' accepts as
 ;; its value a list of symbols.  Those are commands that will forcefully
 ;; update the indicator after they are invoked.
+;;
+;; The user option `notmuch-indicator-hide-empty-counters' hides zero
+;; counters from the indicator, when it is set to a non-nil value.
 
 ;;; Code:
 
@@ -108,6 +111,11 @@ These form a string like: @50 🤡10."
   :type 'list ; TODO 2022-09-19: Use correct type
   :group 'notmuch-indicator)
 
+(defcustom notmuch-indicator-hide-empty-counters nil
+  "When non-nil, hide output of searches that have zero results."
+  :type 'boolean
+  :group 'notmuch-indicator)
+
 ;; TODO 2022-09-19: If this changes, the `notmuch-indicator-mode' needs
 ;; to be restarted.  We can add a custom setter here.  Perhaps there is
 ;; also some elegant way to handle this when the variable is changed
@@ -130,15 +138,18 @@ option `notmuch-indicator-refresh-count'."
 
 ;;;; Helper functions and the minor-mode
 
+(defun notmuch-indicator--format-output (properties)
+  "Format PROPERTIES of `notmuch-indicator-args'."
+  (let ((count (shell-command-to-string (format "notmuch count %s" (plist-get properties :terms)))))
+    (if (and (zerop (string-to-number count)) notmuch-indicator-hide-empty-counters)
+        ""
+      (format "%s%s" (or (plist-get properties :label)  "") (replace-regexp-in-string "\n" " " count)))))
+
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
   (mapconcat
    (lambda (props)
-     (format "%s%s" (or (plist-get props :label)  "")
-             (replace-regexp-in-string
-              "\n" " "
-              (shell-command-to-string
-               (format "notmuch count %s" (plist-get props :terms))))))
+     (notmuch-indicator--format-output props))
    notmuch-indicator-args
    " "))
 

@@ -49,3 +49,6 @@ represents seconds.
 The user option `notmuch-indicator-force-refresh-commands` accepts as
 its value a list of symbols.  Those are commands that will forcefully
 update the indicator after they are invoked.
+
+The user option `notmuch-indicator-hide-empty-counters` hides zero
+counters from the indicator, when it is set to a non-nil value.
