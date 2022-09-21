@@ -1,5 +1,16 @@
 # notmuch-indicator for Emacs
 
++ Package name (GNU ELPA): `notmuch-indicator`
++ Git repo on SourceHut: <https://git.sr.ht/~protesilaos/notmuch-indicator>
+  - Mirrors:
+    + GitHub: <https://github.com/protesilaos/notmuch-indicator>
+    + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
++ Mailing list: <https://lists.sr.ht/~protesilaos/notmuch-indicator>
++ Backronym: notmuch-... Increasingly in Need of Displaying
+  Inconsequential Counters Alongside Trivia that Obscure Reality.
+
+* * *
+
 This is a simple package that renders an indicator with an email count
 of the `notmuch` index on the Emacs mode line.  The underlying mechanism
 is that of `notmuch-count(1)`, which is used to find the number of items
