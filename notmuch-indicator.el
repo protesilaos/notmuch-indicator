@@ -27,8 +27,6 @@
 
 ;;; Commentary:
 ;;
-;; Work-in-progress.
-;;
 ;; This is a simple package that renders an indicator with an email count
 ;; of the `notmuch' index on the Emacs mode line.  The underlying mechanism
 ;; is that of `notmuch-count(1)', which is used to find the number of items
