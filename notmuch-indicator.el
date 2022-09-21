@@ -121,7 +121,11 @@ buffer for the clean code (I dislike markup in doc strings)):
             (:terms \"--output threads from:VIP\" :label \"🤡\")))
 
 These form a string like: @50 🤡10."
-  :type 'list ; TODO 2022-09-19: Use correct type
+  :type '(repeat
+          (plist :options
+                 (((const :tag "Search terms for `notmuch-count(1)'" :terms) string)
+                  ((const :tag "Cosmetic label for the counter" :label) string)
+                  ((const :tag "Face applied to the label" :face) face))))
   :group 'notmuch-indicator)
 
 (defcustom notmuch-indicator-hide-empty-counters nil
