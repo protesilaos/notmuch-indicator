@@ -79,6 +79,10 @@
 ;;
 ;; The user option `notmuch-indicator-hide-empty-counters' hides zero
 ;; counters from the indicator, when it is set to a non-nil value.
+;;
+;; Finally, and albeit obvious, the backronym for this package is
+;; notmuch-... Increasingly in Need of Displaying Inconsequential
+;; Counters Alongside Trivia that Obscure Reality.
 
 ;;; Code:
 
