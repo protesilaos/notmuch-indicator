@@ -12,19 +12,26 @@ search terms and associate them with a given label.  The label is purely
 cosmetic, though it helps characterise the resulting counter.
 
 The value of `notmuch-indicator-args` is a list of plists (property
-lists).  Each plist consists of two properties, both of which accept a
-string value:
+lists).  Each plist consists of one mandarory property and two optional
+ones:
 
-1. The `:terms` holds the command-line arguments passed to
-   `notmuch-count(1)` (read the Notmuch documentation for the
-   technicalities).
+1. The `:terms`, which is required, is a string that holds the
+   command-line arguments passed to `notmuch-count(1)` (read the Notmuch
+   documentation for the technicalities).
 
-2. The `:label` is an arbitrary string that is prepended to the return
-   value of the above.
+2. The `:label`, which is optional, is an arbitrary string that is
+   prepended to the return value of the above.  If nil or omitted, no
+   label is displayed.
 
-Multiple plists represent separate `notmuch-count(1)` queries.  These
-are run sequentially.  Their return values are joined into a single
-string.
+3. The `face`, which is optional, is the symbol of a face that is
+   applied to the `:label`.  It should not be quoted, so like `:face
+   bold`.  Good candidates are `bold`, `italic`, `success`, `warning`,
+   `error`, though anything will do.  If nil or omitted, no face is
+   used.
+
+Multiple plist lists represent separate `notmuch-count(1)` queries.
+These are run sequentially.  Their return values are joined into a
+single string.
 
 For instance, a value like the following defines three searches:
 
