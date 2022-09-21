@@ -149,7 +149,7 @@ Also see `notmuch-indicator-force-refresh-commands'."
   "List of commands that update the notmuch-indicator after invoked.
 Normally, the indicator runs on a timer, controlled by the user
 option `notmuch-indicator-refresh-count'."
-  :type '(repeat symbol)
+  :type '(repeat function)
   :group 'notmuch-indicator)
 
 ;;;; Helper functions and the minor-mode
