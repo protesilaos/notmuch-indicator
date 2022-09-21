@@ -26,7 +26,7 @@ Multiple plists represent separate `notmuch-count(1)` queries.  These
 are run sequentially.  Their return values are joined into a single
 string.
 
-For instance, a value like the following defines three commands:
+For instance, a value like the following defines three searches:
 
 ```elisp
 (setq notmuch-indicator-args
