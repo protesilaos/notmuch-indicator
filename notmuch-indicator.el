@@ -64,10 +64,10 @@
 ;;
 ;;     (setq notmuch-indicator-args
 ;;           '((:terms "tag:unread and tag:inbox" :label "@")
-;;             (:terms "from:authorities and tag:unread" :label "👺")
+;;             (:terms "from:bank and tag:bills" :label "😱")
 ;;             (:terms "--output threads tag:loveletter" :label "💕")))
 ;;
-;; These form a string like: `@50 👺1000 💕0'.
+;; These form a string which realistically is like: @50 😱1000 💕0.
 ;;
 ;; The user option `notmuch-indicator-refresh-count' determines how
 ;; often the indicator will be refreshed.  It accepts a numeric argument
@@ -118,9 +118,10 @@ buffer for the clean code (I dislike markup in doc strings)):
 
     (setq notmuch-indicator-args
           \='((:terms \"tag:unread and tag:inbox\" :label \"@\")
-            (:terms \"--output threads from:VIP\" :label \"🤡\")))
+            (:terms \"from:bank and tag:bills\" :label \"😱\")
+            (:terms \"--output threads tag:loveletter\" :label \"💕\")))
 
-These form a string like: @50 🤡10."
+These form a string which realistically is like: @50 😱1000 💕0."
   :type '(repeat
           (plist :options
                  (((const :tag "Search terms for `notmuch-count(1)'" :terms) string)

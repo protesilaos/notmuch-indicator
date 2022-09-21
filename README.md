@@ -38,11 +38,11 @@ For instance, a value like the following defines three searches:
 ```elisp
 (setq notmuch-indicator-args
       '((:terms "tag:unread and tag:inbox" :label "@")
-        (:terms "from:authorities and tag:unread" :label "👺")
+        (:terms "from:bank and tag:bills" :label "😱")
         (:terms "--output threads tag:loveletter" :label "💕")))
 ```
 
-These form a string like: `@50 👺1000 💕0`.
+These form a string which realistically is like: `@50 😱1000 💕0`.
 
 The user option `notmuch-indicator-refresh-count` determines how often
 the indicator will be refreshed.  It accepts a numeric argument which
