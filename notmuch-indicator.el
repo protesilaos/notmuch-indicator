@@ -3,9 +3,9 @@
 ;; Copyright (C) 2022  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
-;; Maintainer: THIS-IS-A-SAMPLE Development <~protesilaos/THIS-IS-A-SAMPLE@lists.sr.ht>
+;; Maintainer: notmuch-indicator Development <~protesilaos/notmuch-indicator@lists.sr.ht>
 ;; URL: https://git.sr.ht/~protesilaos/notmuch-indicator
-;; Mailing-List: https://lists.sr.ht/~protesilaos/THIS-IS-A-SAMPLE
+;; Mailing-List: https://lists.sr.ht/~protesilaos/notmuch-indicator
 ;; Version: 0.0.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, mail
