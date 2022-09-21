@@ -84,21 +84,30 @@
 (defcustom notmuch-indicator-args '((:terms "tag:unread and tag:inbox" :label "@"))
   "List of plists specifying terms for `notmuch-count(1)'.
 
-Each plist consists of two properties, both of which accept a
-string value:
+Each plist consists of one mandarory property and two optional
+ones:
 
-1. The `:terms' holds the command-line arguments passed to
-   `notmuch-count(1)' (read the Notmuch documentation for the
-   technicalities).
+1. The `:terms', which is required, is a string that holds the
+   command-line arguments passed to `notmuch-count(1)' (read the
+   Notmuch documentation for the technicalities).
 
-2. The `:label' is an arbitrary string that is prepended to
-   the return value of the above.
+2. The `:label', which is optional, is an arbitrary string that
+   is prepended to the return value of the above.  If nil or
+   omitted, no label is displayed.
 
-Multiple plists represent separate `notmuch-count(1)' queries.
-These are run sequentially.  Their return values are joined into
-a single string.
+3. The `face', which is optional, is the symbol of a face that is
+   applied to the `:label'.  It should not be quoted, so like
+   :face bold.  Good candidates are `bold', `italic', `success',
+   `warning', `error', though anything will do.  If nil or
+   omitted, no face is used.
 
-For instance, a value like the following defines two commands:
+Multiple plist lists represent separate `notmuch-count(1)'
+queries.  These are run sequentially.  Their return values are
+joined into a single string.
+
+For instance, a value like the following defines two commands (in
+the source code the quotes are escaped---please check the Help
+buffer for the clean code (I dislike markup in doc strings)):
 
     (setq notmuch-indicator-args
           \='((:terms \"tag:unread and tag:inbox\" :label \"@\")
@@ -141,9 +150,11 @@ option `notmuch-indicator-refresh-count'."
    (shell-command-to-string
     (format "notmuch count %s" terms))))
 
-(defun notmuch-indicator--format-label (label count)
-  "Format LABEL and COUNT of `notmuch-indicator-args'."
-  (format "%s%s " (or label  "") count))
+(defun notmuch-indicator--format-label (label count face)
+  "Format LABEL, COUNT, FACE of `notmuch-indicator-args'."
+  (if (and face label)
+      (format "%s%s " (propertize label 'face face) count)
+    (format "%s%s " (or label "") count)))
 
 (defun notmuch-indicator--format-output (properties)
   "Format PROPERTIES of `notmuch-indicator-args'."
@@ -151,7 +162,10 @@ option `notmuch-indicator-refresh-count'."
     (if (and (zerop (string-to-number count))
              notmuch-indicator-hide-empty-counters)
         ""
-      (notmuch-indicator--format-label (plist-get properties :label) count))))
+      (notmuch-indicator--format-label
+       (plist-get properties :label)
+       count
+       (plist-get properties :face)))))
 
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
