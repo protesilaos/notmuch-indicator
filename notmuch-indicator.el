@@ -166,11 +166,17 @@ option `notmuch-indicator-refresh-count'."
    (shell-command-to-string
     (format "notmuch count %s" terms))))
 
-(defun notmuch-indicator--format-label (label count face)
-  "Format LABEL, COUNT, FACE of `notmuch-indicator-args'."
-  (if (and face label)
-      (format "%s%s " (propertize label 'face face) count)
-    (format "%s%s " (or label "") count)))
+(defun notmuch-indicator--format-label (label count face terms)
+  "Format LABEL, COUNT, FACE and TERMS of `notmuch-indicator-args'."
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line mouse-1]
+                (lambda () (interactive) (notmuch-search terms)))
+    (propertize
+     (if (and face label)
+         (format "%s%s " (propertize label 'face face) count)
+       (format "%s%s " (or label "") count))
+     'help-echo "mouse-1: Open notmuch search"
+     'local-map map)))
 
 (defun notmuch-indicator--format-output (properties)
   "Format PROPERTIES of `notmuch-indicator-args'."
@@ -181,7 +187,8 @@ option `notmuch-indicator-refresh-count'."
       (notmuch-indicator--format-label
        (plist-get properties :label)
        count
-       (plist-get properties :face)))))
+       (plist-get properties :face)
+       (plist-get properties :terms)))))
 
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
