@@ -190,21 +190,27 @@ option `notmuch-indicator-refresh-count'."
      (notmuch-indicator--format-output props))
    notmuch-indicator-args))
 
-(defvar notmuch-indicator--last-state nil
-  "Internal variable used to store the indicator's state.")
+(defvar notmuch-indicator-string ""
+  "String showing the `notmuch-indicator' state.
+It is appended to the `global-mode-string'.")
+(put 'notmuch-indicator-string 'risky-local-variable t)
 
 (defun notmuch-indicator--indicator ()
   "Prepare new mail count mode line indicator."
-  (let* ((count (notmuch-indicator--return-count))
-         (old-indicator notmuch-indicator--last-state))
-    (when old-indicator
-      (setq global-mode-string (delete old-indicator global-mode-string)))
-    (cond
-     (count
-      (setq global-mode-string (push count global-mode-string))
-      (setq notmuch-indicator--last-state count))
-     (t
-      (setq notmuch-indicator--last-state nil))))
+  (when (not (string-empty-p notmuch-indicator-string))
+    (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string)))
+  (if-let ((count (notmuch-indicator--return-count)))
+      (setq notmuch-indicator-string count
+            ;; FIXME 2022-09-22: This may be hacky, but I cannot remember or
+            ;; find a function that appends an element as the second in a
+            ;; list.  I don't want it to be at the very start or end...
+            global-mode-string
+            (reverse
+             (append
+              (butlast (reverse global-mode-string))
+              '(notmuch-indicator-string)
+              '(""))))
+    (setq notmuch-indicator-string ""))
   (force-mode-line-update t))
 
 (defun notmuch-indicator--running-p ()
@@ -244,7 +250,7 @@ option `notmuch-indicator-refresh-count'.."
         (dolist (fn notmuch-indicator-force-refresh-commands)
           (advice-add fn :after #'notmuch-indicator--refresh)))
     (cancel-function-timers #'notmuch-indicator--indicator)
-    (setq global-mode-string (delete notmuch-indicator--last-state global-mode-string))
+    (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
     (dolist (fn notmuch-indicator-force-refresh-commands)
       (advice-remove fn #'notmuch-indicator--refresh))
     (force-mode-line-update t)))
