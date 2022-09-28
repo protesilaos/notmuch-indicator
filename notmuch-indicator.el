@@ -166,21 +166,17 @@ option `notmuch-indicator-refresh-count'."
    (shell-command-to-string
     (format "notmuch count %s" terms))))
 
-(defvar notmuch-indicator-mode-map
-  (let ((map (make-sparse-keymap)))
-    map)
-  "Keymap for the Notmuch indicator.")
-
 (defun notmuch-indicator--format-label (label count face terms)
   "Format LABEL, COUNT, FACE and TERMS of `notmuch-indicator-args'."
-  (define-key notmuch-indicator-mode-map [mode-line mouse-1]
-              (lambda () (interactive) (notmuch-search terms)))
-  (propertize
-   (if (and face label)
-       (format "%s%s " (propertize label 'face face) count)
-     (format "%s%s " (or label "") count))
-   'help-echo (format "mouse-1: Open notmuch search for `%s'" terms)
-   'local-map notmuch-indicator-mode-map))
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line mouse-1]
+                (lambda () (interactive) (notmuch-search terms)))
+    (propertize
+     (if (and face label)
+         (format "%s%s " (propertize label 'face face) count)
+       (format "%s%s " (or label "") count))
+     'help-echo (format "mouse-1: Open notmuch search for `%s'" terms)
+     'local-map map)))
 
 (defun notmuch-indicator--format-output (properties)
   "Format PROPERTIES of `notmuch-indicator-args'."
