@@ -54,6 +54,8 @@ For instance, a value like the following defines three searches:
 ```
 
 These form a string which realistically is like: `@50 😱1000 💕0`.
+Each component is clickable: it runs `notmuch-search` on the
+applicable `:terms`.
 
 The user option `notmuch-indicator-refresh-count` determines how often
 the indicator will be refreshed.  It accepts a numeric argument which
