@@ -65,3 +65,13 @@ update the indicator after they are invoked.
 
 The user option `notmuch-indicator-hide-empty-counters` hides zero
 counters from the indicator, when it is set to a non-nil value.
+
+## Acknowledgements
+
+The `notmuch-indicator` is meant to be a collective effort.  Every bit
+of help matters.
+
++ Author/maintainer :: Protesilaos Stavrou.
+
++ Contributions to code or user feedback :: Henrik Kjerringvåg, Yusef
+  Aslam.
