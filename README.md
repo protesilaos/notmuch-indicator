@@ -75,5 +75,5 @@ of help matters.
 
 + Author/maintainer :: Protesilaos Stavrou.
 
-+ Contributions to code or user feedback :: Henrik Kjerringvåg, Yusef
-  Aslam.
++ Contributions to code or user feedback :: Henrik Kjerringvåg, Stefan
+  Monnier, Yusef Aslam.
