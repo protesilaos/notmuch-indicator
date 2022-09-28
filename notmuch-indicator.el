@@ -166,6 +166,10 @@ option `notmuch-indicator-refresh-count'."
    (shell-command-to-string
     (format "notmuch count %s" terms))))
 
+(declare-function
+ notmuch-search "notmuch"
+ (&optional query oldest-first target-thread target-line no-display))
+
 (defun notmuch-indicator--format-label (label count face terms)
   "Format LABEL, COUNT, FACE and TERMS of `notmuch-indicator-args'."
   (let ((map (make-sparse-keymap)))
