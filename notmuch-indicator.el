@@ -195,7 +195,7 @@ option `notmuch-indicator-refresh-count'."
   (mapconcat
    (lambda (props)
      (notmuch-indicator--format-output props))
-   notmuch-indicator-args))
+   notmuch-indicator-args ""))
 
 (defvar notmuch-indicator-string ""
   "String showing the `notmuch-indicator' state.
