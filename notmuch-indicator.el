@@ -199,8 +199,7 @@ option `notmuch-indicator-refresh-count'."
 (defun notmuch-indicator--return-count ()
   "Parse `notmuch-indicator-args' and format them as single string."
   (mapconcat
-   (lambda (props)
-     (notmuch-indicator--format-output props))
+   #'notmuch-indicator--format-output
    notmuch-indicator-args ""))
 
 (defvar notmuch-indicator-string ""
