@@ -68,6 +68,8 @@
 ;;             (:terms "--output threads tag:loveletter" :label "💕")))
 ;;
 ;; These form a string which realistically is like: @50 😱1000 💕0.
+;; Each component is clickable: it runs `notmuch-search' on the
+;; applicable `:terms'.
 ;;
 ;; The user option `notmuch-indicator-refresh-count' determines how
 ;; often the indicator will be refreshed.  It accepts a numeric argument
@@ -80,7 +82,7 @@
 ;; The user option `notmuch-indicator-hide-empty-counters' hides zero
 ;; counters from the indicator, when it is set to a non-nil value.
 ;;
-;; Finally, and albeit obvious, the backronym for this package is
+;; Finally, and albeit obvious, the backronym for this package is:
 ;; notmuch-... Increasingly in Need of Displaying Inconsequential
 ;; Counters Alongside Trivia that Obscure Reality.
 
