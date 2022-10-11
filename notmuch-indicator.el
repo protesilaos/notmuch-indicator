@@ -241,11 +241,16 @@ The delay is specified by `notmuch-indicator-refresh-count'."
     (notmuch-indicator--indicator)
     (run-at-time t notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
 
-(defun notmuch-indicator--refresh ()
+(defun notmuch-indicator-refresh ()
   "Refresh the active indicator."
   (when (notmuch-indicator--running-p)
     (cancel-function-timers #'notmuch-indicator--indicator)
     (notmuch-indicator--run)))
+
+(define-obsolete-function-alias
+  'notmuch-indicator--refresh
+  'notmuch-indicator-refresh
+  "0.3.0")
 
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
@@ -262,11 +267,11 @@ option `notmuch-indicator-refresh-count'.."
       (progn
         (notmuch-indicator--run)
         (dolist (fn notmuch-indicator-force-refresh-commands)
-          (advice-add fn :after #'notmuch-indicator--refresh)))
+          (advice-add fn :after #'notmuch-indicator-refresh)))
     (cancel-function-timers #'notmuch-indicator--indicator)
     (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
     (dolist (fn notmuch-indicator-force-refresh-commands)
-      (advice-remove fn #'notmuch-indicator--refresh))
+      (advice-remove fn #'notmuch-indicator-refresh))
     (force-mode-line-update t)))
 
 (provide 'notmuch-indicator)
