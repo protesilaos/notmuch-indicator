@@ -245,6 +245,7 @@ The delay is specified by `notmuch-indicator-refresh-count'."
   "Refresh the active indicator."
   (when (notmuch-indicator--running-p)
     (cancel-function-timers #'notmuch-indicator--indicator)
+    (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
     (notmuch-indicator--run)))
 
 (define-obsolete-function-alias
