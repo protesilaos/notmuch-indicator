@@ -123,7 +123,7 @@ the source code the quotes are escaped---please check the Help
 buffer for the clean code (I dislike markup in doc strings)):
 
     (setq notmuch-indicator-args
-          \='((:terms \"tag:unread and tag:inbox\" :label \"@\")
+         \\='((:terms \"tag:unread and tag:inbox\" :label \"@\")
             (:terms \"from:bank and tag:bills\" :label \"😱\")
             (:terms \"--output threads tag:loveletter\" :label \"💕\")))
 
