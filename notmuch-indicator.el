@@ -211,8 +211,7 @@ It is appended to the `global-mode-string'.")
 
 (defun notmuch-indicator--indicator ()
   "Prepare new mail count mode line indicator."
-  (when (not (string-empty-p notmuch-indicator-string))
-    (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string)))
+  (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
   (if-let ((count (notmuch-indicator--return-count)))
       (setq notmuch-indicator-string count
             ;; FIXME 2022-09-22: This may be hacky, but I cannot remember or
@@ -245,7 +244,6 @@ The delay is specified by `notmuch-indicator-refresh-count'."
   "Refresh the active indicator."
   (when (notmuch-indicator--running-p)
     (cancel-function-timers #'notmuch-indicator--indicator)
-    (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
     (notmuch-indicator--run)))
 
 (define-obsolete-function-alias
