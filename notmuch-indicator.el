@@ -1,6 +1,6 @@
 ;;; notmuch-indicator.el --- Display mode line indicator with notmuch-count(1) output -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022  Free Software Foundation, Inc.
+;; Copyright (C) 2022-2023  Free Software Foundation, Inc.
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: notmuch-indicator Development <~protesilaos/notmuch-indicator@lists.sr.ht>
