@@ -39,7 +39,7 @@
 ;; purely cosmetic, though it helps characterise the resulting counter.
 ;;
 ;; The value of `notmuch-indicator-args' is a list of plists (property
-;; lists).  Each plist consists of one mandarory property and two
+;; lists).  Each plist consists of one mandatory property and two
 ;; optional ones:
 ;;
 ;; 1. The `:terms', which is required, is a string that holds the
@@ -228,10 +228,11 @@ It is appended to the `global-mode-string'.")
 
 (defun notmuch-indicator--running-p ()
   "Return non-nil if `notmuch-indicator--indicator' is running."
-  (delq nil
-        (mapcar (lambda (timer)
-                  (eq (timer--function timer) 'notmuch-indicator--indicator))
-                timer-list)))
+  (when (executable-find "notmuch")
+    (delq nil
+          (mapcar (lambda (timer)
+                    (eq (timer--function timer) 'notmuch-indicator--indicator))
+                  timer-list))))
 
 (defun notmuch-indicator--run ()
   "Run the timer with a delay, starting it if necessary.
