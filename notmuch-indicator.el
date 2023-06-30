@@ -6,7 +6,7 @@
 ;; Maintainer: notmuch-indicator Development <~protesilaos/notmuch-indicator@lists.sr.ht>
 ;; URL: https://git.sr.ht/~protesilaos/notmuch-indicator
 ;; Mailing-List: https://lists.sr.ht/~protesilaos/notmuch-indicator
-;; Version: 0.2.2
+;; Version: 1.0.0
 ;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: convenience, mail
 
