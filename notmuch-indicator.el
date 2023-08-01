@@ -236,9 +236,10 @@ It is appended to the `global-mode-string'.")
   "Return non-nil if `notmuch-indicator--indicator' is running."
   (when (executable-find "notmuch")
     (delq nil
-          (mapcar (lambda (timer)
-                    (eq (timer--function timer) 'notmuch-indicator--indicator))
-                  timer-list))))
+          (mapcar
+           (lambda (timer)
+             (eq (timer--function timer) 'notmuch-indicator--indicator))
+           timer-list))))
 
 (defun notmuch-indicator--run ()
   "Run the timer with a delay, starting it if necessary.
