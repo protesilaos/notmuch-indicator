@@ -206,6 +206,7 @@ option `notmuch-indicator-refresh-count'."
                (notmuch-indicator--format-counter count properties))))
          notmuch-indicator-args)))
 
+(defun notmuch-indicator--return-single-string ()
   "Parse `notmuch-indicator-args' and format them as single string."
   (mapconcat #'identity (notmuch-indicator--get-counters) " "))
 
@@ -217,7 +218,7 @@ It is appended to the `global-mode-string'.")
 (defun notmuch-indicator--indicator ()
   "Prepare new mail count mode line indicator."
   (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
-  (if-let ((count (notmuch-indicator--return-count)))
+  (if-let ((count (notmuch-indicator--return-single-string)))
       (setq notmuch-indicator-string count
             ;; FIXME 2022-09-22: This may be hacky, but I cannot remember or
             ;; find a function that appends an element as the second in a
