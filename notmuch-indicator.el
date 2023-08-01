@@ -187,23 +187,27 @@ option `notmuch-indicator-refresh-count'."
      'help-echo (format "mouse-1: Open notmuch search for `%s'" terms)
      'local-map map)))
 
-(defun notmuch-indicator--format-output (properties)
-  "Format PROPERTIES of `notmuch-indicator-args'."
-  (let ((count (notmuch-indicator--shell-command (plist-get properties :terms))))
-    (if (and (zerop (string-to-number count))
-             notmuch-indicator-hide-empty-counters)
-        ""
-      (notmuch-indicator--format-label
-       (plist-get properties :label)
-       count
-       (plist-get properties :face)
-       (plist-get properties :terms)))))
+(defun notmuch-indicator--format-counter (count properties)
+  "Format counter with COUNT and PROPERTIES of `notmuch-indicator-args'."
+  (notmuch-indicator--format-label
+   (plist-get properties :label)
+   count
+   (plist-get properties :face)
+   (plist-get properties :terms)))
 
-(defun notmuch-indicator--return-count ()
+(defun notmuch-indicator--get-counters ()
+  "Return `notmuch-indicator-args' per `notmuch-indicator-hide-empty-counters'."
+  (delq nil
+        (mapcar
+         (lambda (properties)
+           (let ((count (notmuch-indicator--shell-command (plist-get properties :terms))))
+             (unless (and (zerop (string-to-number count))
+                          notmuch-indicator-hide-empty-counters)
+               (notmuch-indicator--format-counter count properties))))
+         notmuch-indicator-args)))
+
   "Parse `notmuch-indicator-args' and format them as single string."
-  (mapconcat
-   #'notmuch-indicator--format-output
-   notmuch-indicator-args " "))
+  (mapconcat #'identity (notmuch-indicator--get-counters) " "))
 
 (defvar notmuch-indicator-string ""
   "String showing the `notmuch-indicator' state.
