@@ -216,7 +216,7 @@ It is appended to the `global-mode-string'.")
 (put 'notmuch-indicator-string 'risky-local-variable t)
 
 (defun notmuch-indicator--indicator ()
-  "Prepare new mail count mode line indicator."
+  "Prepare `notmuch-indicator-string'."
   (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
   (if-let ((count (notmuch-indicator--return-single-string)))
       (setq notmuch-indicator-string count
