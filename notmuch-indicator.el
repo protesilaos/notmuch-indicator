@@ -159,6 +159,48 @@ option `notmuch-indicator-refresh-count'."
   :type '(repeat function)
   :group 'notmuch-indicator)
 
+(defun notmuch-indicator-get-config-file ()
+  "Return `notmuch' configuration file."
+  (catch 'found
+    (dolist (path '("$XDG_CONFIG_HOME/notmuch/$NOTMUCH_PROFILE/config"
+                    "$HOME/.notmuch-config.$NOTMUCH_PROFILE"
+                    "$HOME/.notmuch-config"))
+      (when-let ((config (substitute-env-vars path))
+                 ((file-exists-p config)))
+        (throw 'found config)))))
+
+(defcustom notmuch-indicator-notmuch-config-file (notmuch-indicator-get-config-file)
+  "File system path to the local user's Notmuch configuration file.
+
+The file is one among:
+
+- $XDG_CONFIG_HOME/notmuch/$NOTMUCH_PROFILE/config
+- $HOME/.notmuch-config.$NOTMUCH_PROFILE
+- $HOME/.notmuch-config
+
+See the function `notmuch-indicator-get-config-file' for how we
+return the right path.  The user can set this user option to an
+arbitrary path if the aforementioned function does not return the
+desired value.
+
+We store this the first time `notmuch-indicator-mode' is loaded
+so that the indicator can still show the data of the local user
+even when they are browsing a remote file system with TRAMP.
+Alternatively, the user may wish to have different indicators
+depending on the TRAMP environment, in which case the value of
+this user option must be updated accordingly (DEV NOTE: please
+contact me if you have such a use-case, as I am happy to make the
+package more flexible)."
+  :type 'file
+  :package-version '(notmuch-indicator . "1.1.0")
+  :group 'notmuch-indicator)
+
+(defcustom notmuch-indicator-notmuch-binary (executable-find "notmuch")
+  "File system path to the `notmuch' binary."
+  :type 'file
+  :package-version '(notmuch-indicator . "1.1.0")
+  :group 'notmuch-indicator)
+
 ;;;; Helper functions and the minor-mode
 
 (defun notmuch-indicator--shell-command (terms)
@@ -166,7 +208,10 @@ option `notmuch-indicator-refresh-count'."
   (replace-regexp-in-string
    "\n" " "
    (shell-command-to-string
-    (format "notmuch count %s" terms))))
+    (format "%s --config=%S count %s"
+            notmuch-indicator-notmuch-binary
+            notmuch-indicator-notmuch-config-file
+            terms))))
 
 (declare-function
  notmuch-search "notmuch"
@@ -234,7 +279,7 @@ It is appended to the `global-mode-string'.")
 
 (defun notmuch-indicator--running-p ()
   "Return non-nil if `notmuch-indicator--indicator' is running."
-  (when (executable-find "notmuch")
+  (when (and notmuch-indicator-notmuch-config-file notmuch-indicator-notmuch-binary)
     (delq nil
           (mapcar
            (lambda (timer)
