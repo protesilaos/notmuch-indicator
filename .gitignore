@@ -1,4 +1,6 @@
 *.elc
 *-autoloads.el
 *-pkg.el
+notmuch-indicator.info
+notmuch-indicator.texi
 
