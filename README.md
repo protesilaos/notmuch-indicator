@@ -15,5 +15,5 @@ love letters, respectively.
     + GitHub: <https://github.com/protesilaos/notmuch-indicator>
     + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
 + Mailing list: <https://lists.sr.ht/~protesilaos/general-issues>
-+ Backronym: notmuch-... Increasingly in Need of Displaying
-  Inconsequential Counters Alongside Trivia that Obscure Reality.
++ Backronym: notmuch-... Interested in Notmuch Data Indicators that
+  Count Any Terms Ordinarily Requested.
