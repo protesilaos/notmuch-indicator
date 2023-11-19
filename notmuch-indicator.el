@@ -201,12 +201,21 @@ package more flexible)."
   :package-version '(notmuch-indicator . "1.1.0")
   :group 'notmuch-indicator)
 
+(defcustom notmuch-indicator-add-to-mode-line-misc-info t
+  "When non-nil, append the notmuch indicator to the mode line.
+Experienced users can set this to a nil value and then include
+the `notmuch-indicator-mode-line-construct' anywhere they want in
+`mode-line-format' or related."
+  :type 'boolean
+  :package-version '(notmuch-indicator . "1.2.0")
+  :group 'notmuch-indicator)
+
 ;;;; Helper functions and the minor-mode
 
 (defun notmuch-indicator--shell-command (terms)
   "Run shell command for `notmuch-count(1)' with TERMS."
   (replace-regexp-in-string
-   "\n" " "
+   "\n" ""
    (shell-command-to-string
     (format "%s --config=%S count %s"
             notmuch-indicator-notmuch-binary
@@ -217,20 +226,26 @@ package more flexible)."
  notmuch-search "notmuch"
  (&optional query oldest-first target-thread target-line no-display))
 
+(defvar notmuch-indicator-counter-format "%s%s"
+  "The `format' string for each counter.
+It accepts two %s specifiers for the label and number,
+respectively.")
+
 (defun notmuch-indicator--format-label (label count face terms)
   "Format LABEL, COUNT, FACE and TERMS of `notmuch-indicator-args'."
   (let ((map (make-sparse-keymap)))
     (define-key map [mode-line mouse-1]
                 (lambda () (interactive) (notmuch-search terms)))
-    (propertize
-     (format "%s%s"
-             (if (and face label)
-                 (propertize label 'face face)
-               (or label ""))
-             count)
-     'mouse-face 'mode-line-highlight
-     'help-echo (format "mouse-1: Open notmuch search for `%s'" terms)
-     'local-map map)))
+    (concat " " ; to separate multiple counters without changing the mouse hover highlight
+            (propertize
+             (format notmuch-indicator-counter-format
+                     (if (and face label)
+                         (propertize label 'face face)
+                       (or label ""))
+                     count)
+             'mouse-face 'mode-line-highlight
+             'help-echo (format "mouse-1: Open notmuch search for `%s'" terms)
+             'local-map map))))
 
 (defun notmuch-indicator--format-counter (count properties)
   "Format counter with COUNT and PROPERTIES of `notmuch-indicator-args'."
@@ -251,31 +266,17 @@ package more flexible)."
                (notmuch-indicator--format-counter count properties))))
          notmuch-indicator-args)))
 
-(defun notmuch-indicator--return-single-string ()
-  "Parse `notmuch-indicator-args' and format them as single string."
-  (mapconcat #'identity (notmuch-indicator--get-counters) " "))
-
-(defvar notmuch-indicator-string ""
-  "String showing the `notmuch-indicator' state.
-It is appended to the `global-mode-string'.")
-(put 'notmuch-indicator-string 'risky-local-variable t)
-
 (defun notmuch-indicator--indicator ()
-  "Prepare `notmuch-indicator-string'."
-  (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
-  (if-let ((count (notmuch-indicator--return-single-string)))
-      (setq notmuch-indicator-string count
-            ;; FIXME 2022-09-22: This may be hacky, but I cannot remember or
-            ;; find a function that appends an element as the second in a
-            ;; list.  I don't want it to be at the very start or end...
-            global-mode-string
-            (reverse
-             (append
-              (butlast (reverse global-mode-string))
-              '(notmuch-indicator-string)
-              '(""))))
-    (setq notmuch-indicator-string ""))
-  (force-mode-line-update t))
+  "Return contents of mode line indicator."
+  (or (notmuch-indicator--get-counters) ""))
+
+(defvar-local notmuch-indicator-mode-line-construct
+    '(notmuch-indicator-mode (" " (:eval (notmuch-indicator--indicator))))
+  "Show the notmuch-indicator on the mode line.
+Do it when `notmuch-indicator-mode' is enabled.  Also see
+`notmuch-indicator-add-to-mode-line-misc-info'.")
+
+(put 'notmuch-indicator-mode-line-construct 'risky-local-variable t)
 
 (defun notmuch-indicator--running-p ()
   "Return non-nil if `notmuch-indicator--indicator' is running."
@@ -290,19 +291,20 @@ It is appended to the `global-mode-string'.")
   "Run the timer with a delay, starting it if necessary.
 The delay is specified by `notmuch-indicator-refresh-count'."
   (unless (notmuch-indicator--running-p)
-    (notmuch-indicator--indicator)
     (run-at-time t notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
 
 (defun notmuch-indicator-refresh ()
   "Refresh the active indicator."
   (when (notmuch-indicator--running-p)
-    (cancel-function-timers #'notmuch-indicator--indicator)
-    (notmuch-indicator--run)))
+    (cancel-function-timers #'notmuch-indicator--indicator)))
 
 (define-obsolete-function-alias
   'notmuch-indicator--refresh
   'notmuch-indicator-refresh
   "0.3.0")
+
+(defvar notmuch-indicator--used-mode-line-construct nil
+  "Mode line construct last added by `notmuch-indicator-mode'.")
 
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
@@ -317,11 +319,14 @@ option `notmuch-indicator-refresh-count'.."
   :global t
   (if notmuch-indicator-mode
       (progn
+        (when notmuch-indicator-add-to-mode-line-misc-info
+          (setq notmuch-indicator--used-mode-line-construct notmuch-indicator-mode-line-construct)
+          (add-to-list 'mode-line-misc-info notmuch-indicator-mode-line-construct))
         (notmuch-indicator--run)
         (dolist (fn notmuch-indicator-force-refresh-commands)
           (advice-add fn :after #'notmuch-indicator-refresh)))
+    (setq mode-line-misc-info (delete notmuch-indicator--used-mode-line-construct mode-line-misc-info))
     (cancel-function-timers #'notmuch-indicator--indicator)
-    (setq global-mode-string (delq 'notmuch-indicator-string global-mode-string))
     (dolist (fn notmuch-indicator-force-refresh-commands)
       (advice-remove fn #'notmuch-indicator-refresh))
     (force-mode-line-update t)))
