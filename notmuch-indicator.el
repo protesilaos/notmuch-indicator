@@ -300,7 +300,8 @@ The delay is specified by `notmuch-indicator-refresh-count'."
 (defun notmuch-indicator-refresh ()
   "Refresh the active indicator."
   (when (notmuch-indicator--running-p)
-    (cancel-function-timers #'notmuch-indicator--indicator)))
+    (cancel-function-timers #'notmuch-indicator--indicator)
+    (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
 
 (define-obsolete-function-alias
   'notmuch-indicator--refresh
