@@ -266,12 +266,16 @@ respectively.")
                (notmuch-indicator--format-counter count properties))))
          notmuch-indicator-args)))
 
+(defvar notmuch-indicator--counters nil
+  "Store the return value of `notmuch-indicator--indicator'.")
+
 (defun notmuch-indicator--indicator ()
   "Return contents of mode line indicator."
-  (or (notmuch-indicator--get-counters) ""))
+  (setq notmuch-indicator--counters
+        (or (notmuch-indicator--get-counters) "")))
 
 (defvar-local notmuch-indicator-mode-line-construct
-    '(notmuch-indicator-mode (" " (:eval (notmuch-indicator--indicator))))
+    '(notmuch-indicator-mode (" " (:eval notmuch-indicator--counters)))
   "Show the notmuch-indicator on the mode line.
 Do it when `notmuch-indicator-mode' is enabled.  Also see
 `notmuch-indicator-add-to-mode-line-misc-info'.")
@@ -291,7 +295,7 @@ Do it when `notmuch-indicator-mode' is enabled.  Also see
   "Run the timer with a delay, starting it if necessary.
 The delay is specified by `notmuch-indicator-refresh-count'."
   (unless (notmuch-indicator--running-p)
-    (run-at-time t notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
+    (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
 
 (defun notmuch-indicator-refresh ()
   "Refresh the active indicator."
