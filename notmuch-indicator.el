@@ -282,6 +282,10 @@ Do it when `notmuch-indicator-mode' is enabled.  Also see
 
 (put 'notmuch-indicator-mode-line-construct 'risky-local-variable t)
 
+(defun notmuch-indicator-tab-bar-format ()
+  "Notmuch indicator construct suitable for `tab-bar-format'."
+  `((global menu-item ,(format-mode-line notmuch-indicator-mode-line-construct) ignore)))
+
 (defun notmuch-indicator--running-p ()
   "Return non-nil if `notmuch-indicator--indicator' is running."
   (when (and notmuch-indicator-notmuch-config-file notmuch-indicator-notmuch-binary)

@@ -235,6 +235,34 @@ Everything is in place to set up the package.
       notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
 #+end_src
 
+** Place the notmuch-indicator on the tab-bar
+:PROPERTIES:
+:CUSTOM_ID: h:9deb5f28-2d0e-4e50-8a57-a65003f40967
+:END:
+
+[ This information is relevant as part of {{{development-version}}}. ]
+
+#+findex: notmuch-indicator-tab-bar-format
+The built-in ~tab-bar-mode~ provides the ~tab-bar-format~ option to
+display additional information on the tab bar instead of showing it on
+each mode line. Add the ~notmuch-indicator-tab-bar-format~ to the
+list, such as with this arrangement:
+
+#+begin_src emacs-lisp
+(setq tab-bar-format
+      '( tab-bar-format-history
+         tab-bar-format-tabs
+         tab-bar-separator
+         tab-bar-format-add-tab
+         tab-bar-format-align-right
+         notmuch-indicator-tab-bar-format ; here it is
+         tab-bar-separator
+         tab-bar-format-global))
+#+end_src
+
+Note that unlike the mode line, the indicator on the tab-line is not
+clickable. This is not something we control.
+
 * Acknowledgements
 :PROPERTIES:
 :CUSTOM_ID: h:399afb8b-7bb3-40b4-b10f-3123714d9614
