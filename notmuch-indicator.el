@@ -212,7 +212,8 @@ package more flexible)."
   "When non-nil, append the notmuch indicator to the mode line.
 Experienced users can set this to a nil value and then include
 the `notmuch-indicator-mode-line-construct' anywhere they want in
-`mode-line-format' or related."
+`mode-line-format' or related.  Also read the manual for an
+example that uses the `tab-bar-mode'."
   :type 'boolean
   :package-version '(notmuch-indicator . "1.2.0")
   :group 'notmuch-indicator)
