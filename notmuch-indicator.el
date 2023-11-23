@@ -28,48 +28,19 @@
 ;;; Commentary:
 ;;
 ;; This is a simple package that renders an indicator with an email
-;; count of the `notmuch' index on the Emacs mode line.  The underlying
-;; mechanism is that of `notmuch-count(1)', which is used to find the
-;; number of items that match the given search terms.
+;; count of the `notmuch' index on the Emacs mode line.  The
+;; underlying mechanism is that of `notmuch-count(1)', which is used
+;; to find the number of items that match the given search terms.  For
+;; example, the letter "U" or the emoji "💬" can accompany search
+;; terms for "unread items".  The resulting indicator may optionally
+;; be styled with a face, only for the label, only for the counter, or
+;; both.
 ;;
-;; The indicator is enabled when `notmuch-indicator-mode' is on.
+;; The indicator is displayed when `notmuch-indicator-mode' is enabled.
 ;;
 ;; The user option `notmuch-indicator-args' provides the means to define
 ;; search terms and associate them with a given label.  The label is
 ;; purely cosmetic, though it helps characterise the resulting counter.
-;;
-;; The value of `notmuch-indicator-args' is a list of plists (property
-;; lists).  Each plist consists of one mandatory property and two
-;; optional ones:
-;;
-;; 1. The `:terms', which is required, is a string that holds the
-;;    command-line arguments passed to `notmuch-count(1)' (read the
-;;    Notmuch documentation for the technicalities).
-;;
-;; 2. The `:label', which is optional, is an arbitrary string that is
-;;    prepended to the return value of the above.  If nil or omitted, no
-;;    label is displayed.
-;;
-;; 3. The `face', which is optional, is the symbol of a face that is
-;;    applied to the `:label'.  It should not be quoted, so like :face
-;;    bold.  Good candidates are `bold', `italic', `success', `warning',
-;;    `error', though anything will do.  If nil or omitted, no face is
-;;    used.
-;;
-;; Multiple plist lists represent separate `notmuch-count(1)' queries.
-;; These are run sequentially.  Their return values are joined into a
-;; single string.
-;;
-;; For instance, a value like the following defines three searches:
-;;
-;;     (setq notmuch-indicator-args
-;;           '((:terms "tag:unread and tag:inbox" :label "@")
-;;             (:terms "from:bank and tag:bills" :label "😱")
-;;             (:terms "--output threads tag:loveletter" :label "💕")))
-;;
-;; These form a string which realistically is like: @50 😱1000 💕0.
-;; Each component is clickable: it runs `notmuch-search' on the
-;; applicable `:terms'.
 ;;
 ;; The user option `notmuch-indicator-refresh-count' determines how
 ;; often the indicator will be refreshed.  It accepts a numeric argument
@@ -81,6 +52,10 @@
 ;;
 ;; The user option `notmuch-indicator-hide-empty-counters' hides zero
 ;; counters from the indicator, when it is set to a non-nil value.
+;;
+;; The user option `notmuch-indicator-add-to-mode-line-misc-info' can
+;; be set to nil for those who want to control the placement of the
+;; `notmuch-indicator-mode-line-construct'.
 ;;
 ;; Finally, and albeit obvious, the backronym for this package is:
 ;; notmuch-... Interested in Notmuch Data Indicators that Count Any
