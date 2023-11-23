@@ -78,6 +78,10 @@ number of items that match the given search terms.
 #+vindex: notmuch-indicator-mode
 The indicator is displayed when ~notmuch-indicator-mode~ is enabled.
 
+[ The ~notmuch-indicator-args~ are revised as part of {{{development-version}}}.
+  Specifically, the =:face= property is now called =:label-face=,
+  while a new optional =:counter-face= is accepted. ]
+
 #+vindex: notmuch-indicator-args
 The user option ~notmuch-indicator-args~ provides the means to define
 search terms and associate them with a given label. The label is a
