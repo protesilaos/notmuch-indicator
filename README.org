@@ -81,40 +81,78 @@ The indicator is displayed when ~notmuch-indicator-mode~ is enabled.
 #+vindex: notmuch-indicator-args
 The user option ~notmuch-indicator-args~ provides the means to define
 search terms and associate them with a given label. The label is a
-purely cosmetic to helps describe or differentiate the resulting
-counter. For example, the letter "U" or the emoji "💬" can accompany
-search terms for "unread items".
+purely cosmetic string to helps describe or differentiate the
+resulting counter. For example, the letter "U" or the emoji "💬" can
+accompany search terms for "unread items". The resulting indicator may
+optionally be styled with a face, only for the label, only for the
+counter, or both.
 
-The value of ~notmuch-indicator-args~ is a list of plists (property
-lists). For example:
+Concretely, the value of ~notmuch-indicator-args~ is a list of plists
+(property lists). Examples are shown further below.
+
+Each plist consists of one mandarory property and three optional
+ones:
+
+1. The ~:terms~, which is required, is a string that holds the
+   command-line arguments passed to ~notmuch-count(1)~ (read the
+   Notmuch documentation for the technicalities).
+
+2. The ~:label~, which is optional, is an arbitrary string that is
+   prepended to the return value of the above. If the value is nil or
+   the property is omitted, no label is displayed.
+
+3. The ~:label-face~, which is optional, is the symbol of a face that
+   is applied to the ~:label~. It should not be quoted, so like :face
+   bold. Good candidates are ~bold~, ~italic~, ~success~, ~warning~,
+   ~error~, though anything will do. If the value is nil or the
+   property is omitted, no face is used. For backward-compatibility,
+   ~:face~ has the same meaning as ~:label-face~.
+
+4. The ~:counter-face~, which is optional, is like ~:label-face~ but
+   applies to the number of the given counter. It accepts the unquoted
+   symbol of a face, as noted above, though it also takes a ~inherit~
+   value which means to use the same face as the ~:label-face~. This
+   too is an unquoted symbol. If the value is nil, or the property is
+   omitted altogether, the counter does not have a face assigned to
+   it.
+
+Multiple plist lists represent separate ~notmuch-count(1)~ queries.
+These are run sequentially. Their return values are joined into a list
+of strings. By default, this is shown on the mode line, wherever
+~mode-line-misc-info~ is displayed. Refer to the user option
+~notmuch-indicator-add-to-mode-line-misc-info~ to control the
+placement of the ~notmuch-indicator-mode-line-construct~.
+
+For instance, a value like the following defines three searches (in
+the source code the quotes are escaped---please check the Help buffer
+for the clean code (I dislike markup in doc strings)):
 
 #+begin_src emacs-lisp
 (setq notmuch-indicator-args
-      '((:terms "tag:unread and tag:inbox" :label "💬")
-        (:terms "from:bank and tag:bills" :label "😱")
-        (:terms "--output threads tag:loveletter" :label "💕")))
+     '((:terms "tag:unread and tag:inbox" :label "@")
+        (:terms "from:bank and tag:bills and tag:unpaid" :label "😱")
+        (:terms "--output threads tag:fans" :label "❤️")))
 #+end_src
 
-Each plist consists of one mandatory property and two optional
-ones:
+These form a list of strings which appears as something like this: =@2
+😱1000 ❤️0= (sorry, the ~notmuch-indicator~ is no miracle worker: your
+fan mail will not be more than your unpaid bills).
 
-1. The =:terms=, which is required, takes the value of a string that
-   holds the command-line arguments passed to ~notmuch-count(1)~ (read
-   the Notmuch documentation for the technicalities).
+Same idea as above, but with faces applied:
 
-2. The =:label=, which is optional, is an arbitrary string that is
-   prepended to the return value of the above. If nil or omitted, no
-   label is displayed next to the counter.
-
-3. The ~face~, which is optional, is the symbol of a face that is
-   applied to the =:label=. It should not be quoted, so like =:face
-   bold=. Good candidates are ~bold~, ~italic~, ~success~, ~warning~,
-   ~error~, though anything will do. If nil or omitted, no face is
-   used.
-
-Multiple plist entries represent separate ~notmuch-count(1)~ queries.
-These are run sequentially. Their return values are joined into a
-single string that is displayed on the mode line, such as =💬5 😱1000 💕0=.
+#+begin_src emacs-lisp
+(setq notmuch-indicator-args
+     '(( :terms "tag:unread and tag:inbox"
+         :label "@"
+         :label-face success)
+       ( :terms "from:bank and tag:bills and tag:unpaid"
+         :label "😱"
+         :counter-face warning)
+       ( :terms "--output threads tag:fans"
+         :label "❤️"
+         :label-face error
+         :counter-face inherit)))
+#+end_src
 
 Each counter is clickable: it runs ~notmuch-search~ on the applicable
 =:terms=., assuming the =notmuch.el= is set up.  In other words,
