@@ -264,13 +264,15 @@ Everything is in place to set up the package.
 (require 'notmuch-indicator)
 
 (setq notmuch-indicator-args
-      '((:terms "tag:unread and tag:inbox" :label "U" :face success)
-        (:terms "tag:unread and tag:package" :label "P" :face warning)
-        (:terms "tag:unread and tag:coach" :label "C" :face error))
+      '((:terms "tag:unread and tag:inbox" :label "U" :label-face success)
+        (:terms "tag:unread and tag:package" :label "P" :label-face warning :counter-face inherit)
+        (:terms "tag:unread and tag:coach" :label "C" :label-face bold :counter-face error))
 
       notmuch-indicator-refresh-count (* 60 3)
       notmuch-indicator-hide-empty-counters t
       notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
+
+(notmuch-indicator-mode 1)
 #+end_src
 
 ** Place the notmuch-indicator on the tab-bar
