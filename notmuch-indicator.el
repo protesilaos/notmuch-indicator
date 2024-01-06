@@ -224,11 +224,12 @@ example that uses the `tab-bar-mode'."
   "Run shell command for `notmuch-count(1)' with TERMS."
   (replace-regexp-in-string
    "\n" ""
-   (shell-command-to-string
-    (format "%s --config=%S count %s"
-            notmuch-indicator-notmuch-binary
-            notmuch-indicator-notmuch-config-file
-            terms))))
+   (let ((default-directory "~"))
+     (shell-command-to-string
+      (format "%s --config=%S count %s"
+              notmuch-indicator-notmuch-binary
+              notmuch-indicator-notmuch-config-file
+              terms)))))
 
 (declare-function
  notmuch-search "notmuch"
