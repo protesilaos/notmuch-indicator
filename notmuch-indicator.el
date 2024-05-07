@@ -228,7 +228,7 @@ example that uses the `tab-bar-mode'."
       (format "%s --config=%S count %s"
               notmuch-indicator-notmuch-binary
               notmuch-indicator-notmuch-config-file
-              terms)))))
+              (shell-quote-argument terms))))))
 
 (declare-function
  notmuch-search "notmuch"
