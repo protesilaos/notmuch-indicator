@@ -1,21 +1,21 @@
-#+title:                 notmuch-indicator: Display mode line indicator with notmuch-count output
-#+author:                Protesilaos Stavrou
-#+email:                 info@protesilaos.com
-#+language:              en
-#+options:               ':t toc:nil author:t email:t num:t
-#+startup:               content
-#+macro:                 stable-version 1.1.0
-#+macro:                 release-date 2023-10-14
-#+macro:                 development-version 1.2.0-dev
-#+export_file_name:      notmuch-indicator.texi
-#+texinfo_filename:      notmuch-indicator.info
-#+texinfo_dir_category:  Emacs misc features
-#+texinfo_dir_title:     notmuch-indicator: (notmuch-indicator)
-#+texinfo_dir_desc:      Display mode line indicator with notmuch-count output
-#+texinfo_header:        @set MAINTAINERSITE @uref{https://protesilaos.com,maintainer webpage}
-#+texinfo_header:        @set MAINTAINER Protesilaos Stavrou
-#+texinfo_header:        @set MAINTAINEREMAIL @email{info@protesilaos.com}
-#+texinfo_header:        @set MAINTAINERCONTACT @uref{mailto:info@protesilaos.com,contact the maintainer}
+#+title: notmuch-indicator: Display mode line indicator with notmuch-count output
+#+author: Protesilaos Stavrou
+#+email: info@protesilaos.com
+#+language: en
+#+options: ':t toc:nil author:t email:t num:t
+#+startup: content
+#+macro: stable-version 1.1.0
+#+macro: release-date 2023-10-14
+#+macro: development-version 1.2.0-dev
+#+export_file_name: notmuch-indicator.texi
+#+texinfo_filename: notmuch-indicator.info
+#+texinfo_dir_category: Emacs misc features
+#+texinfo_dir_title: notmuch-indicator: (notmuch-indicator)
+#+texinfo_dir_desc: Display mode line indicator with notmuch-count output
+#+texinfo_header: @set MAINTAINERSITE @uref{https://protesilaos.com,maintainer webpage}
+#+texinfo_header: @set MAINTAINER Protesilaos Stavrou
+#+texinfo_header: @set MAINTAINEREMAIL @email{info@protesilaos.com}
+#+texinfo_header: @set MAINTAINERCONTACT @uref{mailto:info@protesilaos.com,contact the maintainer}
 
 #+texinfo: @insertcopying
 
