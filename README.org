@@ -240,7 +240,7 @@ mkdir manual-packages
 cd manual-packages
 
 # Clone this repo, naming it "notmuch-indicator"
-git clone https://git.sr.ht/~protesilaos/notmuch-indicator notmuch-indicator
+git clone https://github.com/protesilaos/notmuch-indicator notmuch-indicator
 #+end_src
 
 Finally, in your =init.el= (or equivalent) evaluate this:
