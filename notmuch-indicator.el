@@ -171,8 +171,8 @@ option `notmuch-indicator-refresh-count'."
     (dolist (path '("$XDG_CONFIG_HOME/notmuch/$NOTMUCH_PROFILE/config"
                     "$HOME/.notmuch-config.$NOTMUCH_PROFILE"
                     "$HOME/.notmuch-config"))
-      (when-let ((config (substitute-env-vars path))
-                 ((file-exists-p config)))
+      (when-let* ((config (substitute-env-vars path))
+                  ((file-exists-p config)))
         (throw 'found config)))))
 
 (defcustom notmuch-indicator-notmuch-config-file (notmuch-indicator-get-config-file)
