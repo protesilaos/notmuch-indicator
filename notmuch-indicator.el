@@ -169,6 +169,8 @@ option `notmuch-indicator-refresh-count'."
   "Return `notmuch' configuration file."
   (catch 'found
     (dolist (path '("$XDG_CONFIG_HOME/notmuch/$NOTMUCH_PROFILE/config"
+                    "$HOME/.config/notmuch/$NOTMUCH_PROFILE/config"
+                    "$HOME/.config/notmuch/default/config"
                     "$HOME/.notmuch-config.$NOTMUCH_PROFILE"
                     "$HOME/.notmuch-config"))
       (when-let* ((config (substitute-env-vars path))
