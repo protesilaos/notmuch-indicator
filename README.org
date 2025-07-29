@@ -311,7 +311,8 @@ of help matters.
 + Author/maintainer :: Protesilaos Stavrou.
 
 + Contributions to code or user feedback :: Henrik Kjerringvåg, MikeS,
-  Mohamed Suliman, Sébastien Delafond, Stefan Monnier, Yusef Aslam.
+  Mohamed Suliman, Sébastien Delafond, Stefan Monnier, Yejun Su, Yusef
+  Aslam.
 
 * GNU Free Documentation License
 :PROPERTIES:
