@@ -75,6 +75,11 @@ number of items that match the given search terms.
 #+findex: notmuch-indicator-mode
 #+vindex: notmuch-indicator-mode
 The indicator is displayed when ~notmuch-indicator-mode~ is enabled.
+The indicator is refreshed via the ~notmuch-after-tag-hook~, the
+~notmuch-indicator-force-refresh-commands~, and/or after
+~notmuch-indicator-refresh-count~ seconds. Those are covered further
+below. [ The inclusion of the ~notmuch-after-tag-hook~ is part of
+{{{development-version}}}. ]
 
 #+vindex: notmuch-indicator-args
 The user option ~notmuch-indicator-args~ provides the means to define
@@ -158,9 +163,13 @@ clicking on the counter produces a Notmuch buffer with the given
 search terms.
 
 #+vindex: notmuch-indicator-refresh-count
+#+vindex: notmuch-after-tag-hook
 The user option ~notmuch-indicator-refresh-count~ determines how often
-the indicator is refreshed. It accepts a numeric argument representing
-seconds.
+the indicator is automatically refreshed, in seconds. If its value is
+~nil~, then the indicator is never refreshed automatically: that
+happens only as part of the ~notmuch-indicator-force-refresh-commands~
+and/or the ~notmuch-after-tag-hook~. [ The ~notmuch-indicator-refresh-count~
+can be ~nil~ as part of {{{development-version}}}. ]
 
 #+vindex: notmuch-indicator-force-refresh-commands
 The user option ~notmuch-indicator-force-refresh-commands~ accepts as
