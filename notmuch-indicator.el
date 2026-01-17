@@ -352,12 +352,11 @@ The delay is specified by `notmuch-indicator-refresh-count'."
 ;;;###autoload
 (define-minor-mode notmuch-indicator-mode
   "Display mode line indicator with `notmuch-count(1)' output.
+Set up the `notmuch-after-tag-hook' to refresh the indicator after the
+tags of a messsge change.
 
-For the search terms and the label that can accompany them, refer
-to the user option `notmuch-indicator-args'.
-
-To control how often the indicator is automatically updated, check the
-user option `notmuch-indicator-refresh-count'."
+Also see: `notmuch-indicator-args', `notmuch-indicator-refresh-count',
+and `notmuch-indicator-force-refresh-commands'."
   :init-value nil
   :global t
   (if notmuch-indicator-mode
