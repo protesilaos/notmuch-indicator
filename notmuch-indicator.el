@@ -231,9 +231,7 @@ example that uses the `tab-bar-mode'."
               notmuch-indicator-notmuch-config-file
               (shell-quote-argument terms))))))
 
-(declare-function
- notmuch-search "notmuch"
- (&optional query oldest-first target-thread target-line no-display))
+(declare-function notmuch-search "notmuch" (&optional query oldest-first hide-excluded target-thread target-line no-display))
 
 (defvar notmuch-indicator-counter-format "%s%s"
   "The `format' string for each counter.
