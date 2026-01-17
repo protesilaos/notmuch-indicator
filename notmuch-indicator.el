@@ -155,7 +155,7 @@ Same idea as above, but with faces applied:
 It probably is better to not set this to a very low number.
 
 Also see `notmuch-indicator-force-refresh-commands'."
-  :type 'number
+  :type 'natnum
   :group 'notmuch-indicator)
 
 (defcustom notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer)
