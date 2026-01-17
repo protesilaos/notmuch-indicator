@@ -320,11 +320,10 @@ Do it when `notmuch-indicator-mode' is enabled.  Also see
 (defun notmuch-indicator--running-p ()
   "Return non-nil if `notmuch-indicator--indicator' is running."
   (when (and notmuch-indicator-notmuch-config-file notmuch-indicator-notmuch-binary)
-    (delq nil
-          (mapcar
-           (lambda (timer)
-             (eq (timer--function timer) 'notmuch-indicator--indicator))
-           timer-list))))
+    (seq-filter
+     (lambda (timer)
+       (eq (timer--function timer) 'notmuch-indicator--indicator))
+     timer-list)))
 
 (defun notmuch-indicator-refresh ()
   "Refresh the active indicator."
