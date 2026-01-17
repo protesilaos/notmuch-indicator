@@ -251,17 +251,18 @@ COUNTER-FACE is that of `:counter-face'.  Apply them to LABEL and
 COUNT, respectively.  If nil, do not propertize LABEL or COUNT
 with a face."
   (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line mouse-1]
-                (lambda () (interactive) (notmuch-search terms)))
+    (define-key map [mode-line mouse-1] (lambda () (interactive) (notmuch-search terms)))
     (concat " " ; to separate multiple counters without changing the mouse hover highlight
             (propertize
              (format notmuch-indicator-counter-format
-                     (if (and label-face label)
-                         (propertize label 'face label-face)
-                       (or label ""))
-                     (if (and counter-face count)
-                         (propertize count 'face counter-face)
-                       (or count "")))
+                     (cond
+                      ((and label-face label) (propertize label 'face label-face))
+                      (label)
+                      (""))
+                     (cond
+                      ((and counter-face count) (propertize count 'face counter-face))
+                      (count)
+                      ("")))
              'mouse-face 'mode-line-highlight
              'help-echo (format "mouse-1: Open notmuch search for `%s'" terms)
              'local-map map))))
