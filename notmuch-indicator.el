@@ -354,8 +354,8 @@ The delay is specified by `notmuch-indicator-refresh-count'."
 For the search terms and the label that can accompany them, refer
 to the user option `notmuch-indicator-args'.
 
-To control how often the indicator is updated, check the user
-option `notmuch-indicator-refresh-count'.."
+To control how often the indicator is automatically updated, check the
+user option `notmuch-indicator-refresh-count'."
   :init-value nil
   :global t
   (if notmuch-indicator-mode
