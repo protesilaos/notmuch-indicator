@@ -146,16 +146,15 @@ Same idea as above, but with faces applied:
   :type 'boolean
   :group 'notmuch-indicator)
 
-;; TODO 2022-09-19: If this changes, the `notmuch-indicator-mode' needs
-;; to be restarted.  We can add a custom setter here.  Perhaps there is
-;; also some elegant way to handle this when the variable is changed
-;; with `setq'.
 (defcustom notmuch-indicator-refresh-count (* 60 3)
   "How often to update the indicator, in seconds.
-It probably is better to not set this to a very low number.
-
-Also see `notmuch-indicator-force-refresh-commands'."
-  :type 'natnum
+If the value is nil, then never update the indicator on a time basis: do
+it only as part of the `notmuch-indicator-force-refresh-commands' and/or
+the `notmuch-after-tag-hook'."
+  :type '(choice
+          (natnum :tag "Number of seconds to auto-refresh the indicator")
+          (const :tag "Do not refresh based on a timer (events will do it)" nil))
+  :package-version '(notmuch-indicator . "1.3.0")
   :group 'notmuch-indicator)
 
 (defcustom notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer)
@@ -330,14 +329,17 @@ Do it when `notmuch-indicator-mode' is enabled.  Also see
 (defun notmuch-indicator--run-timer ()
   "Run the timer with a delay, starting it if necessary.
 The delay is specified by `notmuch-indicator-refresh-count'."
-  (unless (notmuch-indicator--running-p)
-    (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
+  (when (natnump notmuch-indicator-refresh-count)
+    (unless (notmuch-indicator--running-p)
+      (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator))))
 
 (defun notmuch-indicator-refresh ()
   "Refresh the active indicator."
   (when (notmuch-indicator--running-p)
     (cancel-function-timers #'notmuch-indicator--indicator)
-    (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator)))
+    (when (natnump notmuch-indicator-refresh-count)
+      (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator))
+    (notmuch-indicator--indicator)))
 
 (define-obsolete-function-alias
   'notmuch-indicator--refresh
