@@ -20,9 +20,8 @@
 #+texinfo: @insertcopying
 
 This manual, written by Protesilaos Stavrou, describes the
-customization options for =notmuch-indicator= (or
-=notmuch-indicator.el=), and provides every other piece of information
-pertinent to it.
+customization options for =notmuch-indicator= (or =notmuch-indicator.el=),
+and provides every other piece of information pertinent to it.
 
 The documentation furnished herein corresponds to stable version
 {{{stable-version}}}, released on {{{release-date}}}. Any reference to
