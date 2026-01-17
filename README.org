@@ -36,8 +36,8 @@ Current development target is {{{development-version}}}.
 + Git repositories:
   + GitHub: <https://github.com/protesilaos/notmuch-indicator>
   + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
-+ Backronym: notmuch-... Interested in Notmuch Data Indicators that
-  Count Any Terms Ordinarily Requested.
++ Backronym: notmuch-... Interested in Neatly Displayed Indicators
+  that Count Any Terms Ordinarily Requested.
 
 #+toc: headlines 8 insert TOC here, with eight headline levels
 

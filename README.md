@@ -14,5 +14,5 @@ love letters, respectively.
 + Git repositories:
   + GitHub: <https://github.com/protesilaos/notmuch-indicator>
   + GitLab: <https://gitlab.com/protesilaos/notmuch-indicator>
-+ Backronym: notmuch-... Interested in Notmuch Data Indicators that
-  Count Any Terms Ordinarily Requested.
++ Backronym: notmuch-... Interested in Neatly Displayed Indicators
+  that Count Any Terms Ordinarily Requested.
