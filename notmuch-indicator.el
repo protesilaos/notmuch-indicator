@@ -326,20 +326,13 @@ Do it when `notmuch-indicator-mode' is enabled.  Also see
              (eq (timer--function timer) 'notmuch-indicator--indicator))
            timer-list))))
 
-(defun notmuch-indicator--run-timer ()
-  "Run the timer with a delay, starting it if necessary.
-The delay is specified by `notmuch-indicator-refresh-count'."
-  (when (natnump notmuch-indicator-refresh-count)
-    (unless (notmuch-indicator--running-p)
-      (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator))))
-
 (defun notmuch-indicator-refresh ()
   "Refresh the active indicator."
   (when (notmuch-indicator--running-p)
-    (cancel-function-timers #'notmuch-indicator--indicator)
-    (when (natnump notmuch-indicator-refresh-count)
-      (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator))
-    (notmuch-indicator--indicator)))
+    (cancel-function-timers #'notmuch-indicator--indicator))
+  (when (natnump notmuch-indicator-refresh-count)
+    (run-at-time nil notmuch-indicator-refresh-count #'notmuch-indicator--indicator))
+  (notmuch-indicator--indicator))
 
 (define-obsolete-function-alias
   'notmuch-indicator--refresh
@@ -364,7 +357,7 @@ and `notmuch-indicator-force-refresh-commands'."
         (when notmuch-indicator-add-to-mode-line-misc-info
           (setq notmuch-indicator--used-mode-line-construct notmuch-indicator-mode-line-construct)
           (add-to-list 'mode-line-misc-info notmuch-indicator-mode-line-construct))
-        (notmuch-indicator--run-timer)
+        (notmuch-indicator-refresh)
         (add-hook 'notmuch-after-tag-hook #'notmuch-indicator-refresh)
         (dolist (fn notmuch-indicator-force-refresh-commands)
           (advice-add fn :after #'notmuch-indicator-refresh)))
