@@ -364,7 +364,7 @@ and `notmuch-indicator-force-refresh-commands'."
     (remove-hook 'notmuch-after-tag-hook #'notmuch-indicator-refresh)
     (dolist (fn notmuch-indicator-force-refresh-commands)
       (advice-remove fn #'notmuch-indicator-refresh))
-    (force-mode-line-update t)))
+    (force-mode-line-update :all-mode-lines-and-related)))
 
 (provide 'notmuch-indicator)
 ;;; notmuch-indicator.el ends here
