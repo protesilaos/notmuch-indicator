@@ -9,6 +9,49 @@ project's main git repository: <https://github.com/protesilaos/notmuch-indicator
 The newest release is at the top.  For further details, please consult
 the manual: <https://protesilaos.com/emacs/notmuch-indicator>.
 
+* 1.3.0 on 2026-01-18
+:PROPERTIES:
+:CUSTOM_ID: h:e0d9caf2-b419-4bce-8521-f4ba5dff8b08
+:END:
+
+This version adds quality-of-life refinements to a stable package.
+
+** The ~notmuch-indicator-mode~ sets up the ~notmuch-after-tag-hook~
+:PROPERTIES:
+:CUSTOM_ID: h:2651878e-1104-4652-93a8-288b3d8d9dca
+:END:
+
+The indicator will be updated whenever a message's tags change. This
+way users do not need to rely on the timer-based method that we have
+always had.
+
+** The ~notmuch-indicator-refresh-count~ can be set to ~nil~
+:PROPERTIES:
+:CUSTOM_ID: h:032712b7-6394-44e5-965d-da122b33a5fb
+:END:
+
+Doing so has the effect of disabling the timer-based refresh of the
+indicator. It will now be updated only when some event happens, such
+as with the aforementioned change to tags or after the invocation of
+any of the commands listed in the user option ~notmuch-indicator-force-refresh-commands~.
+
+** More configuration file paths
+:PROPERTIES:
+:CUSTOM_ID: h:b4ad9000-0a59-4e7e-9a96-0288b72a7b6d
+:END:
+
+When checking for the ~notmuch~ configuration file, we now also
+consider these two filesystem paths:
+
+- =$HOME/.config/notmuch/$NOTMUCH_PROFILE/config=
+- =$HOME/.config/notmuch/default/config=
+
+Thanks to Yejun Su for the contribution in pull request 6:
+<https://github.com/protesilaos/notmuch-indicator/pull/6>.
+
+The change is small, meaning that Yejun Su does not need to assign
+copyright to the Free Software Foundation.
+
 * 1.2.0 on 2024-05-11
 :PROPERTIES:
 :CUSTOM_ID: h:59674a50-c1b7-4ca3-92ce-2b986bc3f0bf
