@@ -126,7 +126,7 @@ placement of the ~notmuch-indicator-mode-line-construct~.
 
 For instance, a value like the following defines three searches (in
 the source code the quotes are escaped---please check the Help buffer
-for the clean code (I dislike markup in doc strings)):
+for the clean code (I dislike markup in docstrings)):
 
 #+begin_src emacs-lisp
 (setq notmuch-indicator-args
