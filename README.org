@@ -1,5 +1,5 @@
 #+title: notmuch-indicator: Display mode line indicator with notmuch-count output
-#+author: Protesilaos Stavrou
+#+author: Protesilaos
 #+email: info@protesilaos.com
 #+language: en
 #+options: ':t toc:nil author:t email:t num:t
@@ -13,13 +13,13 @@
 #+texinfo_dir_title: notmuch-indicator: (notmuch-indicator)
 #+texinfo_dir_desc: Display mode line indicator with notmuch-count output
 #+texinfo_header: @set MAINTAINERSITE @uref{https://protesilaos.com,maintainer webpage}
-#+texinfo_header: @set MAINTAINER Protesilaos Stavrou
+#+texinfo_header: @set MAINTAINER Protesilaos
 #+texinfo_header: @set MAINTAINEREMAIL @email{info@protesilaos.com}
 #+texinfo_header: @set MAINTAINERCONTACT @uref{mailto:info@protesilaos.com,contact the maintainer}
 
 #+texinfo: @insertcopying
 
-This manual, written by Protesilaos Stavrou, describes the
+This manual, written by Protesilaos, describes the
 customization options for =notmuch-indicator= (or =notmuch-indicator.el=),
 and provides every other piece of information pertinent to it.
 
@@ -314,7 +314,7 @@ clickable. This is not something we control.
 The ~notmuch-indicator~ is meant to be a collective effort.  Every bit
 of help matters.
 
-+ Author/maintainer :: Protesilaos Stavrou.
++ Author/maintainer :: Protesilaos.
 
 + Contributions to code or user feedback :: Henrik Kjerringvåg, MikeS,
   Mohamed Suliman, Sébastien Delafond, Stefan Monnier, Yejun Su, Yusef
