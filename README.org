@@ -265,18 +265,56 @@ Everything is in place to set up the package.
 #+cindex: Package configuration
 
 #+begin_src emacs-lisp
-(require 'notmuch-indicator)
+(use-package notmuch-indicator
+  :ensure t
+  :config
+  (setq notmuch-indicator-args
+        '((:terms "tag:unread and tag:inbox" :label "U" :label-face success)
+          (:terms "tag:unread and tag:package" :label "P" :label-face warning :counter-face inherit)
+          (:terms "tag:unread and tag:coach" :label "C" :label-face bold :counter-face error))
 
-(setq notmuch-indicator-args
-      '((:terms "tag:unread and tag:inbox" :label "U" :label-face success)
-        (:terms "tag:unread and tag:package" :label "P" :label-face warning :counter-face inherit)
-        (:terms "tag:unread and tag:coach" :label "C" :label-face bold :counter-face error))
+        notmuch-indicator-refresh-count (* 60 3)
+        notmuch-indicator-hide-empty-counters t
+        notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
 
-      notmuch-indicator-refresh-count (* 60 3)
-      notmuch-indicator-hide-empty-counters t
-      notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
+  (notmuch-indicator-mode 1))
+#+end_src
 
-(notmuch-indicator-mode 1)
+And here is another example from my own Emacs configuration. It does
+not work as-is because it depends on some parts of my setup. This is
+only for you to have another view of how the package can be set up.
+
+#+begin_src emacs-lisp
+;; NOTE 2026-10-02: What I (Protesilaos) use right now:
+(use-package notmuch-indicator
+  :ensure t
+  :config
+  (setq notmuch-indicator-args
+        '(( :terms "tag:unread and (tag:inbox or tag:archiveinbox)"
+            :label "[U] "
+            ;; :label "💬 "
+            :label-face prot-modeline-indicator-cyan
+            :counter-face prot-modeline-indicator-cyan)
+          ( :terms "tag:unread and tag:package"
+            :label "[P] "
+            ;; :label "🛠️ "
+            :label-face prot-modeline-indicator-magenta
+            :counter-face prot-modeline-indicator-magenta)
+          ( :terms "tag:unread and tag:coach"
+            :label "[C] "
+            ;; :label "🏆 "
+            :label-face prot-modeline-indicator-red
+            :counter-face prot-modeline-indicator-red))
+
+        notmuch-indicator-refresh-count (* 60 3)
+        notmuch-indicator-hide-empty-counters t
+        notmuch-indicator-force-refresh-commands '(notmuch-refresh-this-buffer))
+
+  ;; I control its placement myself.  See prot-emacs-modeline.el where
+  ;; I set the `mode-line-format'.
+  (setq notmuch-indicator-add-to-mode-line-misc-info nil)
+
+  (notmuch-indicator-mode 1))
 #+end_src
 
 ** Place the notmuch-indicator on the tab-bar
